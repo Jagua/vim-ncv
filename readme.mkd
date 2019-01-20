@@ -1,0 +1,3 @@
+# vim-ncv
+
+**vim-ncv** is a Vim plugin to view niconico live comments.

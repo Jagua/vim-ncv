@@ -1,0 +1,155 @@
+*ncv.txt*  ncv: niconico live comments viewer
+
+Version: 0.1.1
+Author: Jagua
+License: MIT License
+
+
+
+==============================================================================
+INTRODUCTION                                                *ncv-introduction*
+
+*ncv* is a Vim plugin to view niconico live comments.
+
+
+Requirements:
+- Vim
+  - |+timer|
+  - |+job|
+  - |+channel|
+- |webapi|
+  https://github.com/mattn/webapi-vim
+
+Optionals:
+- netcat
+- date
+- |blob|
+
+Latest version:
+https://github.com/Jagua/vim-ncv
+
+
+
+==============================================================================
+SETTINGS                                                        *ncv-settings*
+
+
+                                                                  *g:ncv_mail*
+g:ncv_mail             String (Required)
+        mail.
+
+                                                              *g:ncv_password*
+g:ncv_password         String (Required)
+        password.
+
+
+
+==============================================================================
+INTERFACE                                                      *ncv-interface*
+
+------------------------------------------------------------------------------
+COMMANDS                                                        *ncv-commands*
+
+:Ncv                                                                    *:Ncv*
+                similar to |ncv#watch()|.
+
+                See |ncv-example-Ncv|.
+
+------------------------------------------------------------------------------
+FUNCTIONS                                                      *ncv-functions*
+
+
+ncv#watch({url})                                                 *ncv#watch()*
+                Should do the view.
+
+                {url}           String
+                                url or lv_id.
+
+                See |ncv-example-ncv#watch()|.
+
+
+ncv#new()                                                          *ncv#new()*
+                Return |ncv-object|.
+                See |ncv-example-ncv#new()|.
+
+
+------------------------------------------------------------------------------
+NCV OBJECT                                                        *ncv-object*
+
+Ncv object is a dictionary, and has the following items.
+
+        "watch"         Funcref
+                        Should do the view.
+
+                        This function must have the following argument.
+
+                        {url}           String
+                                        URL or lv_id.
+
+        "listener"      Funcref
+                        Specify listener.
+
+                        This function must have the following argument.
+
+                        {listener_name} String
+                                        "channel" or "netcat".
+
+                        "channel" is available only when compiled with
+                        the +channel feature and blob.
+
+
+
+==============================================================================
+EXAMPLES                                                        *ncv-examples*
+
+
+                                                             *ncv-example-Ncv*
+        View lv0123456789
+>
+        :Ncv lv0123456789
+<
+
+                                                     *ncv-example-ncv#watch()*
+        View lv0123456789
+>
+        call ncv#watch('lv0123456789')
+<
+
+                                                       *ncv-example-ncv#new()*
+        View lv0123456789 with channel
+>
+        call ncv#new().listener('channel').watch('lv0123456789')
+<
+
+        View lv0123456789 with netcat
+>
+        call ncv#new().listener('netcat').watch('lv0123456789')
+<
+
+                                                           *ncv-example-vimrc*
+        .vimrc
+>
+        let g:ncv_mail = 'example@example.com'
+        let g:ncv_password = 'example'
+
+        command! -nargs=1 NcvChannel
+              \ call ncv#new().listener('channel').watch(<q-args>)
+        command! -nargs=1 NcvNetcat
+              \ call ncv#new().listener('netcat').watch(<q-args>)
+<
+
+
+
+==============================================================================
+CHANGELOG                                                      *ncv-changelog*
+
+0.1.1   2019-01-21
+        - Upload to GitHub.
+
+0.1.0   2019-01-13
+        - Initial version.
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:et:norl:fen:fdl=0:

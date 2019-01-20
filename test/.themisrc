@@ -1,0 +1,31 @@
+call themis#helper('command').with(themis#helper('assert'))
+call themis#option('reporter', 'tap')
+
+function! IsInstance(instance, prop_table) abort
+  for type in keys(a:prop_table)
+    for name in a:prop_table[type]
+      if !has_key(a:instance, name) || type(a:instance[name]) != v:t_{type}
+        return 0
+      endif
+    endfor
+  endfor
+  return 1
+endfunction
+
+function! EqualsDict(actual, expect) abort
+  for key in keys(a:expect)
+    if !has_key(a:actual, key) || type(a:actual[key]) != type(a:expect[key])
+          \ || a:actual[key] !=# a:expect[key]
+      return 0
+    endif
+  endfor
+  return 1
+endfunction
+
+if !empty($PROFILE_LOG)
+  profile start $PROFILE_LOG
+  profile! file autoload/*.vim
+  profile! file plugin/*.vim
+  profile! file ftplugin/*.vim
+  profile! file syntax/*.vim
+endif
