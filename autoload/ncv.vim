@@ -145,7 +145,7 @@ function! s:util_info(url) abort dict
   let addr = ms.childNode('addr').value()
   let port = ms.childNode('port').value()
   let thread = ms.childNode('thread').value()
-  if executable('date')
+  if executable('date') && has('unix')
     let start_time = trim(system(
           \ printf('date -d @%s %s', start_time, shellescape('+%Y/%m/%d %H:%M:%S'))))
   endif
@@ -208,7 +208,7 @@ function! s:create_info_view_buffer(getplayerstatus) abort
   let title = stream.childNode('title').value()
   let description = stream.childNode('description').value()
   let start_time = stream.childNode('start_time').value()
-  if executable('date')
+  if executable('date') && has('unix')
     let start_time = trim(system(
           \ printf('date -d @%s %s', start_time, shellescape('+%Y/%m/%d %H:%M:%S'))))
   endif
