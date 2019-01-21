@@ -328,6 +328,15 @@ endfunction
 let s:listener.prototype.close_windows = function('s:listener_close_windows')
 
 
+function! s:appendbufline(expr, lnum, text_list) abort
+  if exists('*appendbufline')
+    return appendbufline(a:expr, a:lnum, a:text_list)
+  else
+    return setbufline(a:expr, a:lnum, a:text_list + [''])
+  endif
+endfunction
+
+
 "
 " listener: channel
 "
@@ -372,7 +381,7 @@ function! s:channel_callback(bufname, ch, msg) abort dict
   for chat in split(a:msg, '</chat>\zs')
     let line = s:niconico.chat.format(chat)
     if !empty(line) && bufexists(a:bufname)
-      call appendbufline(a:bufname, '$', [line])
+      call s:appendbufline(a:bufname, '$', [line])
     endif
   endfor
 endfunction
@@ -427,7 +436,7 @@ function! s:netcat_callback(bufname, ch, msg) abort dict
   for chat in split(a:msg, '</chat>\zs')
     let line = s:niconico.chat.format(chat)
     if !empty(line) && bufexists(a:bufname)
-      call appendbufline(a:bufname, '$', [line])
+      call s:appendbufline(a:bufname, '$', [line])
     endif
   endfor
 endfunction
