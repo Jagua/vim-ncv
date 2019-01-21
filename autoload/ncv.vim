@@ -223,7 +223,7 @@ function! s:create_info_view_buffer(getplayerstatus) abort
   tabnew
   let s:info_bufname = '___NCV_INFO___'
   execute printf('topleft split +resize\ %d %s', s:strdisplayheight(information), s:info_bufname)
-  setlocal breakindent buftype=nofile nobuflisted noswapfile wrap nonumber
+  setlocal breakindent buftype=nofile nobuflisted modifiable noswapfile wrap nonumber
   call execute('put = information')
   1 delete _
   redraw
@@ -238,10 +238,10 @@ endfunction
 function! s:create_comment_view_buffer() abort
   let s:comment_bufname = '___NCV_COMMENT___'
   execute 'edit' s:comment_bufname
-  setlocal breakindent buftype=nofile nobuflisted noswapfile wrap nonumber
+  setlocal breakindent buftype=nofile nobuflisted modifiable noswapfile wrap nonumber
 
   setfiletype ncv
-  setlocal modifiable nomodified
+  setlocal nomodified
 endfunction
 
 
