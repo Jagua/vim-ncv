@@ -138,14 +138,15 @@ function! s:util_info(url) abort dict
   endtry
 
   let status = self.getplayerstatus.attr.status
-  let owner_name = self.getplayerstatus.childNode('stream').childNode('owner_name').value()
-  let title = self.getplayerstatus.childNode('stream').childNode('title').value()
-  let start_time = self.getplayerstatus.childNode('stream').childNode('start_time').value()
+  let stream = self.getplayerstatus.childNode('stream')
+  let owner_name = stream.childNode('owner_name').value()
+  let title = stream.childNode('title').value()
+  let start_time = stream.childNode('start_time').value()
   let ms = self.getplayerstatus.childNode('ms')
   let addr = ms.childNode('addr').value()
   let port = ms.childNode('port').value()
   let thread = ms.childNode('thread').value()
-  if executable('date') && has('unix')
+  if has('unix') && executable('date')
     let start_time = trim(system(
           \ printf('date -d @%s %s', start_time, shellescape('+%Y/%m/%d %H:%M:%S'))))
   endif
@@ -181,7 +182,7 @@ function! s:util_comment(url) abort dict
   let thread = ms.childNode('thread').value()
 
   let tempfile = tempname()
-  let template = '<thread thread="%s" version="20061206" res_from="-10"/>%s'
+  let template = '<thread thread="%s" version="20061206" res_from="-50"/>%s'
   let thread_tag = printf(template, thread, "\n")
   call writefile([thread_tag], tempfile, 'b')
   let cmdln = printf('netcat -q 0 %s %s < %s', addr, port, tempfile)
@@ -208,7 +209,7 @@ function! s:create_info_view_buffer(getplayerstatus) abort
   let title = stream.childNode('title').value()
   let description = stream.childNode('description').value()
   let start_time = stream.childNode('start_time').value()
-  if executable('date') && has('unix')
+  if has('unix') && executable('date')
     let start_time = trim(system(
           \ printf('date -d @%s %s', start_time, shellescape('+%Y/%m/%d %H:%M:%S'))))
   endif
@@ -328,13 +329,15 @@ endfunction
 let s:listener.prototype.close_windows = function('s:listener_close_windows')
 
 
-function! s:appendbufline(expr, lnum, text_list) abort
-  if exists('*appendbufline')
+if exists('*appendbufline')
+  function! s:appendbufline(expr, lnum, text_list) abort
     return appendbufline(a:expr, a:lnum, a:text_list)
-  else
+  endfunction
+else
+  function! s:appendbufline(expr, lnum, text_list) abort
     return setbufline(a:expr, a:lnum, a:text_list + [''])
-  endif
-endfunction
+  endfunction
+endif
 
 
 "
@@ -553,7 +556,7 @@ let s:niconico.chat.parse_chat = function('s:parse_chat')
 
 function! s:vpos_to_time(vpos) abort dict
   let h = float2nr(floor(a:vpos / (60 * 60 * 100)))
-  let m = float2nr(floor((a:vpos / 6000) % 60))
+  let m = float2nr(floor((a:vpos / (60 * 100)) % 60))
   let s = float2nr(floor((a:vpos / 100) % 60))
   return printf('%02d:%02d:%02d', h, m, s)
 endfunction
