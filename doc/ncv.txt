@@ -36,11 +36,11 @@ SETTINGS                                                        *ncv-settings*
 
                                                                   *g:ncv_mail*
 g:ncv_mail             String (Required)
-        mail.
+        mail for niconico login.
 
                                                               *g:ncv_password*
 g:ncv_password         String (Required)
-        password.
+        password for niconico login.
 
 
 
