@@ -1,0 +1,54 @@
+Describe ncv#service#niconico_live#niconico#new()
+  Before all
+    let niconico = ncv#service#niconico_live#niconico#new()
+  End
+
+  After all
+    unlet niconico
+  End
+
+  Describe .api
+    It should return a instance
+      let props = {
+            \ 'func' : [
+            \   'login',
+            \   'getplayerstatus',
+            \ ],
+            \}
+      Assert IsInstance(niconico.api, props)
+    End
+  End
+
+  Describe .chat
+    It should return a instance
+      let props = {
+            \ 'func' : [
+            \   'format',
+            \   'parse_chat',
+            \   'vpos_to_time',
+            \ ],
+            \}
+      Assert IsInstance(niconico.chat, props)
+    End
+
+    Context .parse_chat(chatstr)
+      It should parse and return a dictionary
+        Assert EqualsDict(
+              \ niconico.chat.parse_chat('<chat user_id="1" vpos="200">wakotu-</chat>'),
+              \ {
+              \   'user_id' : '1',
+              \   'vpos' : '200',
+              \   'text' : 'wakotu-',
+              \ }
+              \)
+      End
+    End
+
+    Context .vpos_to_time(vpos)
+      It should return a time string formatted '%H:%M:%S'
+        Assert Equals(niconico.chat.vpos_to_time(0), '00:00:00')
+        Assert Equals(niconico.chat.vpos_to_time(360000), '01:00:00')
+      End
+    End
+  End
+End

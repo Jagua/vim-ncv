@@ -1,5 +1,7 @@
 call themis#helper('command').with(themis#helper('assert'))
 call themis#option('reporter', 'tap')
+call themis#option('recursive', 1)
+
 
 function! IsInstance(instance, prop_table) abort
   for type in keys(a:prop_table)

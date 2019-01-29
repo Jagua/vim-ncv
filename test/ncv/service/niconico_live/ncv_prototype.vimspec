@@ -1,0 +1,20 @@
+Describe ncv#service#niconico_live#ncv_prototype#new()
+  Before all
+    let ncv_prototype = ncv#service#niconico_live#ncv_prototype#new()
+  End
+
+  After all
+    unlet ncv_prototype
+  End
+
+  It should return a instance
+    let props = {
+          \ 'func' : [
+          \   'listener',
+          \   'watch',
+          \   'view',
+          \ ],
+          \}
+    Assert IsInstance(ncv_prototype, props)
+  End
+End

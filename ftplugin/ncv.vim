@@ -81,7 +81,7 @@ endfunction
 
 function! s:update_breakindentopt(buf) abort
   let indent = strlen('00:00:00 : 0123456789 : ')
-  call setbufvar(a:buf, '&breakindentopt', ncv#breakindentopt_value(indent))
+  call setbufvar(a:buf, '&breakindentopt', ncv#util#breakindentopt_value(indent))
 endfunction
 
 

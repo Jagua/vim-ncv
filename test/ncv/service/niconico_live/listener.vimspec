@@ -1,0 +1,42 @@
+Describe ncv#service#niconico_live#listener
+  Before all
+    let listener_props = {
+          \ 'func' : [
+          \   'new',
+          \   'parse_getplayerstatus',
+          \   'close_windows',
+          \ ],
+          \}
+    let listener_sub_props = extend(copy(listener_props), {
+          \ 'func' : [
+          \   'available',
+          \   'do',
+          \   'thread_tag',
+          \   'callback',
+          \   'stop',
+          \ ],
+          \})
+  End
+
+  After all
+    unlet listener_props listener_sub_props
+  End
+
+  Describe _prototype#new()
+    It should return a instance
+      Assert IsInstance(ncv#service#niconico_live#listener_prototype#new(), listener_props)
+    End
+  End
+
+  Describe _channel#new()
+    It should return a instance
+      Assert IsInstance(ncv#service#niconico_live#listener_channel#new(), listener_sub_props)
+    End
+  End
+
+  Describe _netcat#new()
+    It should return a instance
+      Assert IsInstance(ncv#service#niconico_live#listener_netcat#new(), listener_sub_props)
+    End
+  End
+End
