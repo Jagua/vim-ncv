@@ -67,5 +67,48 @@ endfunction
 let s:listener.stop = function('s:netcat_stop')
 
 
+if has('nvim')
+  function! s:netcat_available() abort dict
+    let ok = exists('*jobstart')
+    let msg = ok ? '' : 'ncv: not found netcat'
+    return [ok, msg]
+  endfunction
+  let s:listener.available = function('s:netcat_available')
+
+
+  function! s:netcat_do() abort dict
+    let tempfile = tempname()
+    call writefile([self.thread_tag()], tempfile, 'b')
+    let cmdln = printf('netcat -q -1 %s %s < %s', self.addr, self.port, tempfile)
+    let self.job = jobstart([&shell, &shellcmdflag, cmdln], {
+          \ 'on_stdout' : function(self.on_stdout, [self.bufname]),
+          \})
+  endfunction
+  let s:listener.do = function('s:netcat_do')
+
+
+  function! s:netcat_stop() abort dict
+    if has_key(self, 'job')
+      call jobstop(self.job)
+      call remove(self, 'job')
+    endif
+  endfunction
+  let s:listener.stop = function('s:netcat_stop')
+
+
+  function! s:on_stdout(bufname, job_id, data, event) abort dict
+    execute bufwinnr(a:bufname) 'wincmd w'
+    let msg = join(a:data)
+    for chat in split(msg, '</chat>\zs')
+      let line = ncv#service#niconico_live#niconico#new().chat.format(chat)
+      if !empty(line) && bufname('%') ==# a:bufname
+        call setline('$', [line, ''])
+      endif
+    endfor
+  endfunction
+  let s:listener.on_stdout = function('s:on_stdout')
+endif
+
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
