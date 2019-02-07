@@ -2,12 +2,7 @@ Describe ncv#new()
   It should return a new instance
     let props = {
           \ 'func' : [
-          \   'listener',
-          \   'view',
           \   'watch',
-          \ ],
-          \ 'dict' : [
-          \   'echo',
           \ ],
           \}
     Assert IsInstance(ncv#new(), props)

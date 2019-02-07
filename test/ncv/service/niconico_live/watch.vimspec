@@ -1,0 +1,11 @@
+Describe ncv#service#niconico_live#watch#new()
+  It should return a new instance
+    let props = {
+          \ 'func' : [
+          \   'available',
+          \   'do',
+          \ ],
+          \}
+    Assert IsInstance(ncv#service#niconico_live#watch#new(), props)
+  End
+End

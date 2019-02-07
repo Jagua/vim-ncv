@@ -14,6 +14,9 @@ Describe ncv#service#niconico_live#ncv_prototype#new()
           \   'watch',
           \   'view',
           \ ],
+          \ 'dict' : [
+          \   'echo',
+          \ ],
           \}
     Assert IsInstance(ncv_prototype, props)
   End

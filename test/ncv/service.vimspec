@@ -1,0 +1,23 @@
+Describe ncv#service#new()
+  It should return a new instance
+    let props = {
+          \ 'func' : [
+          \   'service',
+          \   'watch',
+          \ ],
+          \}
+    Assert IsInstance(ncv#service#new(), props)
+  End
+End
+
+Describe ncv#service#prototype()
+  It should return a new instance
+    let props = {
+          \ 'func' : [
+          \   'available',
+          \   'do',
+          \ ],
+          \}
+    Assert IsInstance(ncv#service#prototype(), props)
+  End
+End

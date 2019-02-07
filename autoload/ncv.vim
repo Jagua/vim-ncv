@@ -13,7 +13,7 @@ endfunction
 
 
 function! ncv#new() abort
-  return deepcopy(ncv#service#niconico_live#ncv_prototype#new())
+  return deepcopy(ncv#service#new())
 endfunction
 
 

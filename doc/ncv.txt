@@ -1,6 +1,6 @@
 *ncv.txt*  ncv: niconico live comments viewer
 
-Version: 0.1.2
+Version: 0.1.3
 Author: Jagua
 License: MIT License
 
@@ -142,6 +142,9 @@ EXAMPLES                                                        *ncv-examples*
 
 ==============================================================================
 CHANGELOG                                                      *ncv-changelog*
+
+0.1.3   2019-02-08
+        - Add ncv#service#define().
 
 0.1.2   2019-01-21
         - Add s:appendbufline() for Vim not implemented built-in function
